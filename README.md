@@ -1,0 +1,1 @@
+# sinon-cheat-sheet
