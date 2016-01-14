@@ -21,8 +21,6 @@ let car = {
 sinon.stub(car, 'start', function(driver, cb) {
   cb(0.01);
 };
-
-assert.equals(car.start('me', (result) => return result), 0.01);
 ```
 
 ```javascript
@@ -30,5 +28,7 @@ assert.equals(car.start('me', (result) => return result), 0.01);
 let carStub = sinon.stub(car, 'start');
 carStub.yields(0.01); // callback will always be called with 0.01 value
 
-assert.equals(car.start('me', (result) => return result), 0.01);
+car.start('me', (result) => {
+  assert.equal(result, 0.01);
+});
 ```
