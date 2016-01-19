@@ -22,6 +22,19 @@ assert.equal(car.start(), 'BOOM!');
 
 #### [Methods]
 
+#### withArgs(arg1[, arg2, ...])
+
+This provides the ability to conditionally stub a function, where based on what arguments are passed into a function determines how it responds. `withArgs` is part of the conditional functions (e.g., `onCall` and `onSecondCall`) and is used in combination with result functions (e.g., `returns` and `throws`).
+
+```javascript
+let start = sinon.stub();
+start.withArgs('ford').returns('awesome');
+start.withArgs('chevy').throws();
+
+assert.equal(start('ford'), 'awesome');
+assert.throws(start('chevy'), Error);
+```
+
 #### yields([arg1, arg2, ...])
 
 Let's assume you have a function that accepts a callback as a parameter. If you would like to stub out this function but have the callback still called, you can use the `yields` function. Without using `yields` you would have to stub the entire function call. See an exmaple of using a traditional function stub and using `yields`:
