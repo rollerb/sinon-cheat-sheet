@@ -71,20 +71,21 @@ Also note, that if function takes more than one callback, `yields` will call the
 ```javascript
 let start = (startCb, endCb) => {
   startCb('first');
-  ... // computation
   endCb('second');
 }
-let car = {start: startStub};
 
-let startStub = sinon.stub({start}, 'start');
+let car = {start};
+
+let startStub = sinon.stub(car, 'start');
 startStub.yields('firstly');
 
 car.start(
   (result) => {
-    assert.equal(result, 'firstly');
+    assert.equal(result, 'firstly'); // callback yielded since it was the first
+
   }, 
   (result) => {
-    assert.equal(result, 'second');
+    assert.equal(result, undefined); // default stub for second callback
   }
 );
 ```
