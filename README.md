@@ -13,7 +13,7 @@ let explosiveStart = sinon.stub(); // anonymous stub
 explosiveStart.returns('BOOM!');
 
 let car = {
-  start: explostiveStart
+  start: explosiveStart
 };
 
 assert.equal(car.start(), 'BOOM!');
