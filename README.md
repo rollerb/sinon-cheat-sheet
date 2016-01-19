@@ -84,7 +84,7 @@ car.start(
 );
 ```
 
-Also note, that if no callback is provided to the stubbed function, and you apply `yields` on the stub, then at runtime you will receiving the following error:
+Also note, that if no callback is provided to the stubbed function, and you apply `yields` on the stub, then at runtime you will receive the following error:
 
 ```javascript
 TypeError: start expected to yield, but no callback was passed.
