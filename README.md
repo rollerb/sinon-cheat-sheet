@@ -37,7 +37,7 @@ assert.throws(start('chevy'), Error);
 
 #### yields([arg1, arg2, ...])
 
-Let's assume you have a function that accepts a single callback as a parameter. If you would like to stub out this function but have the callback still called, you can use the `yields` function. Without using `yields` you would have to stub the entire function call. See an exmaple of using a traditional function stub and using `yields`:
+Let's assume you have a function that accepts a single callback as a parameter, where a callback is something of type `function`. If you would like to stub out this function but have the callback still called, you can use the `yields` function. Without using `yields` you would have to stub the entire function call. See an exmaple of using a traditional function stub and using `yields`:
 
 ```javascript
 // Given
@@ -58,10 +58,37 @@ sinon.stub(car, 'start', function(driver, cb) {
 
 ```javascript
 // Using yields
-let carStub = sinon.stub(car, 'start');
-carStub.yields(0.01); // callback will always be called with 0.01 value
+let startStub = sinon.stub(car, 'start');
+startStub.yields(0.01); // callback will always be called with 0.01 value
 
 car.start('me', (result) => {
   assert.equal(result, 0.01);
 });
 ```
+
+Also note, that if function takes more than one callback, `yields` will call the first one. For example:
+
+```javascript
+let start = (startCb, endCb) => {
+  startCb('first');
+  ... // computation
+  endCb('second');
+}
+let car = {start: startStub};
+
+let startStub = sinon.stub({start}, 'start');
+startStub.yields('firstly');
+
+car.start(
+  (result) => {
+    assert.equal(result, 'firstly');
+  }, 
+  (result) => {
+    assert.equal(result, 'second');
+  }
+);
+```
+
+#### yieldsOn(context, [arg1, arg2, ...])
+
+Like `yields` with the additional ability to provide the `this` context within the callback.
